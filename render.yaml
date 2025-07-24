@@ -2,10 +2,9 @@
 
 services:
   # The Backend Service (Spring Boot)
-  - type: pserv # Private Service, not accessible from the public internet
+  - type: pserv
     name: legal-backend
     runtime: docker
-    # CORRECTED a
     repo: https://github.com/wrwoj/demo
     dockerfilePath: ./legal-advice-backend/Dockerfile
     envVars:
@@ -13,16 +12,20 @@ services:
         value: 8080
 
   # The Frontend Service (React + Nginx)
-  - type: web # Web Service, gets a public URL
+  - type: web
     name: legal-frontend
     runtime: docker
-    # This was already correct
     repo: https://github.com/wrwoj/demo
     dockerfilePath: ./legal-advice-frontend/Dockerfile
     envVars:
-      # This links the frontend to the backend
-      - key: NGINX_BACKEND_URL
+      # We now pass the host and port of the backend service separately
+      - key: NGINX_BACKEND_HOST
         fromService:
           type: pserv
-          name: legal-backend # Must match the name of the backend service above
-          property: url
+          name: legal-backend
+          property: host # Get the internal host name
+      - key: NGINX_BACKEND_PORT
+        fromService:
+          type: pserv
+          name: legal-backend
+          property: port # Get the internal port
