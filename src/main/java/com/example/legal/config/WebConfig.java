@@ -9,8 +9,9 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/api/**") // Zezwalaj na żądania do wszystkich endpointów w /api/
-                .allowedOrigins("http://localhost:3000") // Adres, na którym działa frontend React
+        registry.addMapping("/api/**")
+                // CORRECTED LINE: Allow requests from any origin
+                .allowedOrigins("*")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(true);
