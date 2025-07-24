@@ -1,0 +1,31 @@
+# render.yaml
+
+services:
+  # The Backend Service (Spring Boot)
+  - type: pserv # Private Service, not accessible from the public internet
+    name: legal-backend
+    runtime: docker
+    repo: https://github.com/<your_username>/<your_repo_name> # IMPORTANT: Change this!
+    dockerfilePath: ./legal-advice-backend/Dockerfile
+    healthCheck:
+      path: /api/articles # A simple check to see if the service is live
+    envVars:
+      - key: SERVER_PORT
+        value: 8080
+
+  # The Frontend Service (React + Nginx)
+  - type: web # Web Service, gets a public URL
+    name: legal-frontend
+    runtime: docker
+    repo: https://github.com/wrwoj/demo # IMPORTANT: Change this!
+    dockerfilePath: ./legal-advice-frontend/Dockerfile
+    envVars:
+      # This links the frontend to the backend
+      - key: NGINX_BACKEND_URL
+        fromService:
+          type: pserv
+          name: legal-backend # Must match the name of the backend service above
+          property: url
+    ports:
+      - port: 80
+        protocol: TCP
