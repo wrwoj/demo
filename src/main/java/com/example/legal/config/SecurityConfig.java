@@ -16,12 +16,10 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .cors(withDefaults())
-                // This is the correct, final configuration
+                // TEMPORARY DEBUGGING RULE: Permit ALL requests to any path
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/**").permitAll() // Allow API calls
-                        .anyRequest().authenticated() // Secure everything else
-                )
-                .formLogin(withDefaults());
+                        .anyRequest().permitAll()
+                );
 
         return http.build();
     }

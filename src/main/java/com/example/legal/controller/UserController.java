@@ -1,6 +1,7 @@
 package com.example.legal.controller;
 
 import com.example.legal.dto.ArticleDto;
+import com.example.legal.dto.CommentDto;
 import com.example.legal.dto.LawFirmDto;
 import com.example.legal.service.MockDataService;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api") // This base path is critical
 public class UserController {
 
     private final MockDataService mockDataService;
@@ -21,7 +22,6 @@ public class UserController {
 
     @GetMapping("/articles")
     public List<ArticleDto> getPublishedArticles() {
-        // Zwracaj tylko zatwierdzone artykuły
         return mockDataService.getMockArticles().stream()
                 .filter(article -> "Zatwierdzony".equals(article.status()))
                 .collect(Collectors.toList());
@@ -49,5 +49,21 @@ public class UserController {
                 .findFirst()
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    // --- MISSING METHODS ---
+    // This endpoint is required by the ArticleDetailView component
+    @GetMapping("/articles/{articleId}/comments")
+    public List<CommentDto> getCommentsForArticle(@PathVariable String articleId) {
+        return mockDataService.getMockComments().stream()
+                .filter(comment -> articleId.equals(comment.articleId()))
+                .collect(Collectors.toList());
+    }
+
+    // This endpoint is required by the ArticleDetailView component
+    @PostMapping("/articles/{articleId}/comments")
+    public ResponseEntity<String> addComment(@PathVariable String articleId, @RequestBody String content) {
+        System.out.println("Dodano nowy komentarz do artykułu " + articleId + ": " + content);
+        return ResponseEntity.ok("Komentarz został dodany (symulacja)");
     }
 }
