@@ -16,7 +16,9 @@ RUN rm /etc/nginx/conf.d/default.conf
 # Copy the Nginx config template
 COPY nginx/nginx.conf /etc/nginx/templates/default.conf.template
 
-# This command substitutes the backend URL placeholder and starts Nginx
-CMD ["/bin/sh", "-c", "envsubst < /etc/nginx/templates/default.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"]
+# CORRECTED COMMAND
+# This now exports a DOLLAR variable to protect Nginx's internal variables
+# before substituting the backend URL.
+CMD ["/bin/sh", "-c", "export DOLLAR='$' && export NGINX_BACKEND_URL=http://$NGINX_BACKEND_HOST:$NGINX_BACKEND_PORT && envsubst < /etc/nginx/templates/default.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"]
 
 EXPOSE 80
