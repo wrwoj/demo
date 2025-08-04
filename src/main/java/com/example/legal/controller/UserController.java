@@ -25,6 +25,22 @@ public class UserController {
         this.mockDataService = mockDataService;
     }
 
+    @GetMapping("/test")
+    public ResponseEntity<String> test() {
+        logger.info("Test endpoint called");
+        return ResponseEntity.ok("Backend API is running! Use /api/health for health check.");
+    }
+
+    @GetMapping("/simple")
+    public ResponseEntity<Map<String, Object>> simple() {
+        logger.info("Simple endpoint called");
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "API is working!");
+        response.put("timestamp", System.currentTimeMillis());
+        response.put("status", "ok");
+        return ResponseEntity.ok(response);
+    }
+
     @GetMapping("/health")
     public ResponseEntity<String> healthCheck() {
         logger.info("Health check endpoint called");
