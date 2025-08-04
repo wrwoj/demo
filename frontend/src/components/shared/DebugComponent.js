@@ -5,7 +5,8 @@ import {
     getPublishedArticles,
     testBackendPing,
     testBackendSimple,
-    testBackendHealth
+    testBackendHealth,
+    testBackendDirect
 } from '../../api/apiService';
 
 const DebugComponent = () => {
@@ -38,6 +39,7 @@ const DebugComponent = () => {
         setResults({});
         await testEndpoint('nginx-health', testNginxHealth);
         await testEndpoint('nginx-debug', testNginxDebug);
+        await testEndpoint('backend-direct', testBackendDirect);
         await testEndpoint('backend-ping', testBackendPing);
         await testEndpoint('backend-simple', testBackendSimple);
         await testEndpoint('backend-health', testBackendHealth);

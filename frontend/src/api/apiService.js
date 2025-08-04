@@ -57,3 +57,4 @@ export const testNginxDebug = () => axios.get('/nginx-debug');
 export const testBackendPing = () => axios.get('/api/ping');
 export const testBackendSimple = () => axios.get('/api/simple');
 export const testBackendHealth = () => axios.get('/api/health');
+export const testBackendDirect = () => axios.get('/test-backend');
