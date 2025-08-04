@@ -13,7 +13,7 @@ public class WebConfig implements WebMvcConfigurer {
                 // CORRECTED LINE: Allow requests from any origin
                 .allowedOrigins("*")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                .allowedHeaders("*")
-                .allowCredentials(true);
+                .allowedHeaders("*");
+                // Removed allowCredentials(true) as it conflicts with allowedOrigins("*")
     }
 }
