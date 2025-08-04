@@ -17,10 +17,5 @@ services:
     runtime: docker
     repo: https://github.com/wrwoj/demo4
     dockerfilePath: ./frontend/Dockerfile
-    envVars:
-      # Set the backend URL for nginx proxy
-      - key: NGINX_BACKEND_URL
-        fromService:
-          type: web
-          name: legal-backend
-          property: url # Get the full URL of the backend service
+    # Note: Set NGINX_BACKEND_URL environment variable manually in Render dashboard
+    # Value should be: https://demo-dd7m.onrender.com (or your actual backend URL)
