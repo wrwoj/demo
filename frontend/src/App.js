@@ -4,6 +4,7 @@ import Header from './components/shared/Header';
 import HomeView from './views/HomeView';
 import ArticleDetailView from './views/ArticleDetailView';
 import LawFirmView from './views/LawFirmView';
+import DebugComponent from './components/shared/DebugComponent';
 import './App.css';
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
         <div className="App">
             <Header />
             <main className="container">
+                <DebugComponent />
                 <Routes>
                     <Route path="/" element={<HomeView />} />
                     <Route path="/article/:id" element={<ArticleDetailView />} />

@@ -1,5 +1,28 @@
 import axios from 'axios';
 
+// Add request/response interceptors for debugging
+axios.interceptors.request.use(
+    config => {
+        console.log('API Request:', config.method?.toUpperCase(), config.url);
+        return config;
+    },
+    error => {
+        console.error('API Request Error:', error);
+        return Promise.reject(error);
+    }
+);
+
+axios.interceptors.response.use(
+    response => {
+        console.log('API Response:', response.status, response.config.url);
+        return response;
+    },
+    error => {
+        console.error('API Response Error:', error.response?.status, error.config?.url, error.message);
+        return Promise.reject(error);
+    }
+);
+
 // --- User Endpoints ---
 export const getPublishedArticles = () => axios.get('/api/articles');
 export const postQuestion = (question) => axios.post('/api/questions', { question });
@@ -27,3 +50,7 @@ export const adminPostNewLawFirm = (firmData) => axios.post('/api/admin/law-firm
 export const getOwnerAnsweredQuestions = (lawFirmId) => axios.get(`/api/owner/answered-questions/${lawFirmId}`);
 export const getOwnerSubscription = (lawFirmId) => axios.get(`/api/owner/subscription/${lawFirmId}`);
 export const postOwnerNewLawyer = (lawyerData) => axios.post('/api/owner/lawyers', lawyerData);
+
+// --- Debug Endpoints ---
+export const testNginxHealth = () => axios.get('/nginx-health');
+export const testNginxDebug = () => axios.get('/nginx-debug');
