@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { testNginxHealth, testNginxDebug, getPublishedArticles } from '../../api/apiService';
+import { 
+    testNginxHealth, 
+    testNginxDebug, 
+    getPublishedArticles,
+    testBackendPing,
+    testBackendSimple,
+    testBackendHealth
+} from '../../api/apiService';
 
 const DebugComponent = () => {
     const [results, setResults] = useState({});
@@ -31,6 +38,9 @@ const DebugComponent = () => {
         setResults({});
         await testEndpoint('nginx-health', testNginxHealth);
         await testEndpoint('nginx-debug', testNginxDebug);
+        await testEndpoint('backend-ping', testBackendPing);
+        await testEndpoint('backend-simple', testBackendSimple);
+        await testEndpoint('backend-health', testBackendHealth);
         await testEndpoint('api-articles', getPublishedArticles);
     };
 

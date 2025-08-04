@@ -31,6 +31,12 @@ public class UserController {
         return ResponseEntity.ok("Backend API is running! Use /api/health for health check.");
     }
 
+    @GetMapping("/ping")
+    public ResponseEntity<String> ping() {
+        logger.info("Ping endpoint called");
+        return ResponseEntity.ok("pong");
+    }
+
     @GetMapping("/simple")
     public ResponseEntity<Map<String, Object>> simple() {
         logger.info("Simple endpoint called");
